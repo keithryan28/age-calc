@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Age Calculator</title>
+  <style>
+    body {
+      font-family: system-ui, sans-serif;
+      max-width: 560px;
+      margin: 3rem auto;
+      padding: 0 1rem;
+      line-height: 1.5;
+      color: #202124;
+    }
+    main {
+      border: 1px solid #ddd;
+      border-radius: 14px;
+      padding: 1.5rem;
+    }
+    label { display: block; margin: 1rem 0 0.35rem; font-weight: 600; }
+    input, button {
+      font: inherit;
+      padding: 0.7rem;
+      border-radius: 8px;
+    }
+    input { width: 100%; box-sizing: border-box; border: 1px solid #aaa; }
+    button { margin-top: 1rem; border: 0; background: #155eef; color: white; cursor: pointer; }
+    button:hover { background: #1047b8; }
+    #result { margin-top: 1.25rem; font-size: 1.15rem; font-weight: 600; }
+    .hint { color: #555; font-size: 0.95rem; }
+  </style>
+</head>
+<body>
+  <main>
+    <h1>Age Calculator</h1>
+    <p>Enter your year of birth, then click the button to calculate your age.</p>
+
+    <form id="age-form">
+      <label for="birth-year">Year of birth</label>
+      <input id="birth-year" name="birth-year" type="number"
+             inputmode="numeric" step="1" min="1900" required
+             placeholder="e.g. 1995">
+      <button type="submit">Calculate my age</button>
+    </form>
+
+    <p id="result" aria-live="polite">Your age will appear here.</p>
+    <p class="hint">This estimates age by subtracting your birth year from the current year. It doesn't check whether your birthday has happened yet this year.</p>
+  </main>
+
+  <script>
+    const form = document.querySelector("#age-form");
+    const birthYearInput = document.querySelector("#birth-year");
+    const result = document.querySelector("#result");
+
+    form.addEventListener("submit", function (event) {
+      event.preventDefault();
+
+      // Variables store the values we need for the calculation.
+      const birthYear = Number(birthYearInput.value);
+      const currentYear = new Date().getFullYear();
+      const age = currentYear - birthYear;
+
+      if (!Number.isInteger(birthYear) || birthYear < 1900 || birthYear > currentYear) {
+        result.textContent = `Please enter a whole year between 1900 and ${currentYear}.`;
+        return;
+      }
+
+      result.textContent = `You are about ${age} years old.`;
+    });
+  </script>
+</body>
+</html>
